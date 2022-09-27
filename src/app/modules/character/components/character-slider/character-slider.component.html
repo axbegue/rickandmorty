@@ -1,0 +1,29 @@
+<div class="slider-container">
+  <h1>Conoce a nuestros personajes</h1>
+  <ngx-slick-carousel class="carousel" 
+        #slickModal="slick-carousel" 
+        [config]="slideConfig" 
+        (init)="slickInit($event)"
+        (breakpoint)="breakpoint($event)"
+        (afterChange)="afterChange($event)"
+        (beforeChange)="beforeChange($event)">
+
+    <div ngxSlickItem *ngFor="let slide of entityList" class="slide">
+      <div class="asset-wrapper">
+        <a (blur)="onBlur()" (click)="onClick(slide)" class="basic-card hoverable-card">
+          <div class="image-container">
+            <img src="{{ slide.image }}" alt="">
+          </div>
+          <div class="asset-metadata">
+            <p class="title">{{slide.id + '. ' + slide.name}}</p>
+            <div class="metadata">
+              {{getDescription(slide)}}
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    
+  </ngx-slick-carousel>
+
+</div>

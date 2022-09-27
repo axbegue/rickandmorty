@@ -1,19 +1,19 @@
-import { HostBinding } from '@angular/core';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CharacterService } from '@modules/character/service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'app-filter-bar',
+  templateUrl: './filter-bar.component.html',
+  styleUrls: ['./filter-bar.component.scss']
 })
-export class AppComponent {
-  @HostBinding('class') class = 'h-100';
+export class FilterBarComponent implements OnInit {
   private _enteredSearchValue: string = '';
   searchClicked: boolean = false;
-  title = 'angular-rick';
 
   constructor(private service: CharacterService) { }
+
+  ngOnInit(): void {
+  }
 
   public onSearchPerformed() {
     this.searchClicked = true;
@@ -33,4 +33,5 @@ export class AppComponent {
     this._enteredSearchValue = val;
     this.service.onSearchPerformed!(val, false);
   }
+
 }

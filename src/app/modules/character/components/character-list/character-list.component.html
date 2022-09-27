@@ -1,0 +1,10 @@
+<p>character-list works!</p>
+<mat-selection-list #entity>
+  <mat-list-option *ngFor="let entity of entityList">
+    {{entity.name}}
+  </mat-list-option>
+</mat-selection-list>
+
+<p>
+  Options selected: {{entity.selectedOptions.selected.length}}
+</p>
