@@ -14,3 +14,9 @@ mat-toolbar {
   margin-top: 64px;
   overflow-y: auto;
 }
+
+@media (max-width: 525px) {
+  .app-title {
+    display: none;
+  }
+}
