@@ -1,7 +1,7 @@
 import { OnDestroy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { CharacterService } from '@modules/character/service';
-import { FilterBarService } from '@modules/character/service/filter-bar.service';
+import { FilterService } from '@modules/character/service/filter.service';
 import { Subscription } from 'rxjs';
 import { Episode, Season } from 'src/app/model';
 
@@ -18,7 +18,7 @@ export class CharacterFilterComponent implements OnInit, OnDestroy {
   private subscription!: Subscription;
   private episodeSubs!: Subscription;
 
-  constructor(private service: FilterBarService,
+  constructor(private service: FilterService,
     private characterService: CharacterService) { }
 
   ngOnInit(): void {
@@ -72,7 +72,7 @@ export class CharacterFilterComponent implements OnInit, OnDestroy {
 
   public onSearchPerformed() {
     this.searchClicked = true;
-    this.characterService.onSearchPerformed!(this._enteredSearchValue, true);
+    this.characterService.searchEntity(this._enteredSearchValue);
   }
   
   get enteredSearchValue(): string {
@@ -81,12 +81,9 @@ export class CharacterFilterComponent implements OnInit, OnDestroy {
 
   set enteredSearchValue(val: string) {
     if (this.searchClicked && this._enteredSearchValue !== '' && val === '') {
-      this._enteredSearchValue = val;
-      this.characterService.onSearchPerformed(val, true);
-      return;
+      this.characterService.searchEntity(val);
     }
     this.searchClicked = false;
     this._enteredSearchValue = val;
-    this.characterService.onSearchPerformed!(val, false);
   }
 }

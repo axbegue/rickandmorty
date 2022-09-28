@@ -1,10 +1,11 @@
 import { NgModule, Injector } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppComponent } from './app.component';
+import { ErrorInterceptor } from '@core/interceptors/error-interceptor';
 import { setGlobalInjector } from '@core/util/global-injector';
 import { CharacterModule } from '@modules/character';
 
@@ -20,7 +21,14 @@ import { CharacterModule } from '@modules/character';
     
     CharacterModule
   ],
-  providers: [DatePipe],
+  providers: [
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

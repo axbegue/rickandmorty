@@ -16,8 +16,7 @@ import { SlickCarouselComponent } from 'ngx-slick-carousel';
 })
 export class CharacterSliderComponent implements OnInit, OnDestroy {
   @ViewChild('slickModal', { static: true }) slickModal!: SlickCarouselComponent;
-  private pagination: Pagination = new Pagination().size(50);
-  public slides: {img: string}[] = [];
+  private pagination: Pagination = new Pagination().size(20);
   public entityList: Character[] = [];
   private subscription!: Subscription;
   private paginationSubs!: Subscription;
@@ -27,7 +26,7 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
   constructor(private service: CharacterService) { }
 
   ngOnInit(): void {
-    this.service.findEntities('', true);
+    this.service.initialize();
     
     this.paginationSubs = this.service.getPaginationSubject$().subscribe({
       next: (result) => {
@@ -47,23 +46,9 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
           this.loading = true;
 
           if (result.isClear) {
-
-
-            
-            // if (this.slickModal.initialized) {
-            //   this.slickModal.unslick();
-            //   console.log('unslick');
-              
-            // }
-
-            this.entityList.splice(0, this.entityList.length);
-            
-            // if (!this.slickModal.initialized) {
-            //   this.slickModal.initSlick();
-            //   console.log('initSlick');
-            // }
+            this.clearSlides();
           }
-          result.entityList.forEach( val => this.entityList.push(Object.assign({}, val)) );
+          result.entityList.forEach( val => this.addSlide(val) );
           if (result.isClear && this.initialized) {
             this.slickModal.slickGoTo(1);
           }
@@ -78,7 +63,6 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
     this.paginationSubs.unsubscribe();
     this.subscription.unsubscribe();
   }
-
   
   slideConfig = {
     // lazyLoad: 'progressive', // progressive, ondemand  <img [attr.data-lazy]="slide.image" alt=""/>
@@ -131,37 +115,63 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
     // prevArrow: '<div style=\'position: absolute; top: 35%; left: 5px; z-index: 1; cursor: pointer;\' class=\'next-slide\'><i class="fa fa-angle-double-left"></i></div>',
   };
   
-  addSlide() {
-    // this.slides.push({img: "https://material.angular.io/assets/img/examples/shiba2.jpg"})
+  private addSlide(slide: Character) {
+    // Object.assign({}, val)
+    this.entityList.push({ ...slide, description: this.getDescription(slide) });
+  }
+
+  private clearSlides() {
+    // if (this.slickModal.initialized) {
+    //   this.slickModal.unslick();
+    //   console.log('unslick');
+      
+    // }
+
+    this.entityList.splice(0, this.entityList.length);
+
+    // if (!this.slickModal.initialized) {
+    //   this.slickModal.initSlick();
+    //   console.log('initSlick');
+    // }
   }
   
-  removeSlide() {
-    // this.slides.length = this.slides.length - 1;
+  private removeSlide(slide: Character) {
+    const index = this.entityList.indexOf(slide, 0);
+    if (index > -1) {
+      this.entityList.splice(index, 1);
+    }
+  }
+  
+  private slidesSize(): number {
+    return this.entityList.length;
   }
   
   slickInit(e: any) {
     this.initialized = true;
-    // console.log('slick initialized');
+    console.log('slick initialized');
     // console.log(e);
   }
   
   breakpoint(e: any) {
-    // console.log('breakpoint');
+    console.log('breakpoint');
     // console.log(e);
   }
   
   afterChange(e: any) {
-    // console.log('afterChange');
+    console.log('afterChange');
     // console.log(e);
   }
   
   beforeChange(e: any) {
+    console.log('beforeChange');
+
     if (this.loading) {
       return;
     }
+    
+    console.log('beforeChange inside');
     // console.log(e);
     
-    // console.log('beforeChange');
     // console.log(e);
     // console.log('currentSlide: ' + e.currentSlide);
     // console.log('nextSlide: ' + e.nextSlide);
@@ -171,12 +181,12 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
     // console.log('getTotalElements: ' + this.pagination.getTotalElements());
     
 
-    if (this.entityList.length >= this.pagination.getTotalElements()) {
+    if (this.slidesSize() >= this.pagination.getTotalElements()) {
       return;
     }
 
-    if (e.nextSlide + (e.slick.options.slidesToScroll*2) >= this.entityList.length) {
-      // console.log('Lazy load');
+    if (e.nextSlide + (e.slick.options.slidesToScroll*2) >= this.slidesSize()) {
+      console.log('============== Lazy load ==============');
       // console.log(this.pagination.getpageNumber());
       
       this.service.pageChange(this.pagination.getpageNumber() + 1);
@@ -184,22 +194,18 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
       
   }
   
-  _trackBy(index: number, slide: Character) {
-    console.log(index);
-    console.log(slide);
-    
-    
-    if (slide) {
-      return slide.id;
-    }
-    else return 0;
+  _trackBy(index: number, slide: Character): number {
+    // *ngFor="let slide of slides; trackBy: _trackBy"
+    // console.log(index);
+    // console.log(slide);
+    return slide.id;
   }
 
   // selected: boolean = false;
   public onClick(entity: Character) {
     // if (!this.selected) {
     //   this.selected = true;
-      this.service.entitySelection(entity);
+      this.service.selectEntity(entity);
     // } else {
     //   this.selected = false;
     //   this.service.entitySelection(null);

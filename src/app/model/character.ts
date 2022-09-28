@@ -16,6 +16,8 @@ export interface Character {
   image: string,
   episode: [],
   url: string,
-  created: Date
+  created: Date,
+
+  description?: string
 }
   

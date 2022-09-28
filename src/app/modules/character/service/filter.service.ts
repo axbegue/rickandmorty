@@ -1,26 +1,23 @@
 import { Injectable } from '@angular/core';
-import { CharacterService } from '@modules/character/service';
-import { Pagination } from '@shared/app-pagination';
-import { Page } from '@shared/app-pagination/page';
-import { SearchingEntity } from '@shared/util/searching-entity';
 import { BehaviorSubject } from 'rxjs';
-import { Character } from 'src/app/model';
-import { Episode } from 'src/app/model/episode';
-import { Season } from 'src/app/model/season';
-import { EpisodeBackendService } from 'src/app/service/episode-backend.service';
+
+import { Page } from '@shared/app-pagination';
+import { SearchingEntity } from '@shared/util/searching-entity';
+import { EpisodeBackendService, LocationBackendService } from 'src/app/service';
+import { Character, Episode, LocationModel, Season } from 'src/app/model';
+import { CharacterService } from '@modules/character/service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FilterBarService {
-  private pagination: Pagination = new Pagination().size(20);
+export class FilterService {
   private seasonSubject$: BehaviorSubject<SearchingEntity<Season>> = 
         new BehaviorSubject<SearchingEntity<Season>>(new SearchingEntity<Season>());
   private episodeSubject$: BehaviorSubject<SearchingEntity<Episode>> = 
         new BehaviorSubject<SearchingEntity<Episode>>(new SearchingEntity<Episode>());
-  private textoBuscado: string = '';
 
   constructor(private episodeBackend: EpisodeBackendService,
+    private locationBackend: LocationBackendService,
     private characterService: CharacterService) { }
 
   public getSeasonSubject$() {
@@ -31,6 +28,7 @@ export class FilterBarService {
     return this.episodeSubject$;
   }
 
+  // ======= Seasons/Episode Filters =======
   public findAllSeasons() {
     this.seasonSubject$.next(new SearchingEntity<Season>().init());
     
@@ -80,5 +78,33 @@ export class FilterBarService {
       name: `Season ${episode.episode.substring(1, 3)}`
     };
     return season;
+  }
+  
+  // ======= Location/Origin Filters =======
+  public getEntitiesByLocationUrl(locationUrl: string) {
+    // console.log(locationUrl);
+    
+    let locationId = locationUrl.substring(locationUrl.indexOf('api/location/')+13, locationUrl.length);
+    
+    this.locationBackend.getById(locationId).subscribe({
+      next: (response: LocationModel) => {
+        if (!response.residents || response.residents.length === 0) {
+          this.characterService.getSearchingSubject$().next(new SearchingEntity<Character>().clear(true).end([]));
+          return;
+        }
+
+        let charIds: string = '';
+        response.residents.forEach((charUrl: String)=> {
+          charIds += charUrl.substring(charUrl.indexOf('api/character/')+14, charUrl.length) + ',';
+        });
+        
+        // console.log(charIds);
+        
+        this.characterService.getEntitiesById(charIds)
+      },
+      error: (error: string) => {
+        alert(error);
+      }
+    });
   }
 }

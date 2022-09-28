@@ -7,7 +7,8 @@
     <option selected value="">Episode</option>
     <option *ngFor="let episode of episodeList" [value]="episode.episode">{{episode.episode}}</option>
   </select>
-  <input class="search-filter form-control me-2" type="search" placeholder="Search" aria-label="Search" name="enteredSearchValue" [(ngModel)]="enteredSearchValue">
+  <input class="search-filter form-control me-2" spellcheck="false" type="search" 
+      placeholder="Search" aria-label="Search" name="enteredSearchValue" [(ngModel)]="enteredSearchValue">
   <button class="search-button p-0" mat-mini-fab color="accent" type="submit">
     <mat-icon>search</mat-icon>
   </button>

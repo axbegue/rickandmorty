@@ -3,6 +3,7 @@ import { OnDestroy } from '@angular/core';
 import { HostBinding } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { CharacterService } from '@modules/character/service/character.service';
+import { FilterService } from '@modules/character/service/filter.service';
 import { Subscription } from 'rxjs';
 import { Character } from 'src/app/model/character';
 
@@ -38,14 +39,13 @@ export class CharacterContentComponent implements OnInit, OnDestroy {
   public currentEntity: Character | null = null;
   private subscription!: Subscription;
 
-  constructor(private service: CharacterService) { }
+  constructor(private service: CharacterService,
+    private filterService: FilterService) { }
 
   ngOnInit(): void {
     this.subscription = this.service.getEntitySelectionSubject$().subscribe({
       next: (result) => {
         this.currentEntity = result;
-        // console.log(result);
-        
       }
     });
   }
@@ -55,7 +55,7 @@ export class CharacterContentComponent implements OnInit, OnDestroy {
   }
 
   onLocationClick(location: string) {
-    this.service.getEntitiesByLocationUrl(location);
+    this.filterService.getEntitiesByLocationUrl(location);
   }
 
   onCloseClick() {
