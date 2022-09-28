@@ -39,8 +39,8 @@ export class CharacterService {
 
   public findEntities(query: string, clear: boolean) {
     if (this.onLazyload) {
-      console.log('findEntities onLazyload, clear: ' + clear);
-      console.log('findEntities onLazyload, query: ' + query);
+      // console.log('findEntities onLazyload, clear: ' + clear);
+      // console.log('findEntities onLazyload, query: ' + query);
       
       new Promise(resolve => {
         this.findEntitiesLazyLoad(false);
@@ -48,8 +48,8 @@ export class CharacterService {
       return;
     }
 
-    console.log('findEntities normal, clear: ' + clear);
-    console.log('findEntities normal, query: ' + query);
+    // console.log('findEntities normal, clear: ' + clear);
+    // console.log('findEntities normal, query: ' + query);
 
     this.textoBuscado = query;
     this.searchingSubject$.next(new SearchingEntity<Character>().init());
@@ -83,17 +83,17 @@ export class CharacterService {
       toIndex = fromIndex + this.charactersLazyload.length - fromIndex;
     }
 
-    console.log('totalSlides: ' + this.charactersLazyload.length);
-    console.log('pagination.getTotalElements: ' + this.pagination.getTotalElements());
-    console.log('From: ' + fromIndex);
-    console.log('To: ' + toIndex);
+    // console.log('totalSlides: ' + this.charactersLazyload.length);
+    // console.log('pagination.getTotalElements: ' + this.pagination.getTotalElements());
+    // console.log('From: ' + fromIndex);
+    // console.log('To: ' + toIndex);
 
     // this.searchingSubject$.next(new SearchingEntity<Character>().init());
     this.paginationSubject$.next(this.pagination.clone());
 
     let characters = this.charactersLazyload.slice(fromIndex, toIndex);
-    console.log(this.charactersLazyload);
-    console.log(characters);
+    // console.log(this.charactersLazyload);
+    // console.log(characters);
     
 
     this.searchingSubject$.next(new SearchingEntity<Character>().clear(clear).end(characters));
@@ -127,7 +127,7 @@ export class CharacterService {
   }
 
   public getEntitiesByLocationUrl(locationUrl: string) {
-    console.log(locationUrl);
+    // console.log(locationUrl);
     
     let locationId = locationUrl.substring(locationUrl.indexOf('api/location/')+13, locationUrl.length);
     
@@ -143,7 +143,7 @@ export class CharacterService {
           charIds += charUrl.substring(charUrl.indexOf('api/character/')+14, charUrl.length) + ',';
         });
         
-        console.log(charIds);
+        // console.log(charIds);
         
         this.getEntitiesById(charIds)
       },
@@ -154,7 +154,7 @@ export class CharacterService {
   }
 
   public pageChange(page: number) {
-    console.log('pageChange ' + page);
+    // console.log('pageChange ' + page);
     
     this.pagination.pageNumber = page;
     this.findEntities(this.textoBuscado, false);

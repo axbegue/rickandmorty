@@ -81,7 +81,7 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
 
   
   slideConfig = {
-    lazyLoad: 'ondemand',
+    // lazyLoad: 'progressive', // progressive, ondemand  <img [attr.data-lazy]="slide.image" alt=""/>
     slidesToShow: 6,
     slidesToScroll: 6,
     infinite: false,
@@ -146,12 +146,12 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
   }
   
   breakpoint(e: any) {
-    console.log('breakpoint');
+    // console.log('breakpoint');
     // console.log(e);
   }
   
   afterChange(e: any) {
-    console.log('afterChange');
+    // console.log('afterChange');
     // console.log(e);
   }
   
@@ -176,7 +176,7 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
     }
 
     if (e.nextSlide + (e.slick.options.slidesToScroll*2) >= this.entityList.length) {
-      console.log('Lazy load');
+      // console.log('Lazy load');
       // console.log(this.pagination.getpageNumber());
       
       this.service.pageChange(this.pagination.getpageNumber() + 1);

@@ -18,7 +18,7 @@ export class CharacterBackendService {
   constructor(private http: HttpClient) { }
 
   public getById(entityId: string): Observable<Character[]> {
-    console.log(`====== CharacterBackendService.getById: ${entityId} ======`);
+    // console.log(`====== CharacterBackendService.getById: ${entityId} ======`);
 
     return this.http.get<CharacterDto[]>(`${this.apiServerUrl}/${entityId}`).pipe(
       map( (entity) => {
@@ -32,7 +32,7 @@ export class CharacterBackendService {
   }
 
   public getAllPagead(page: number, size?: number): Observable<Page<Character>> {
-    console.log(`====== CharacterBackendService.getAllPagead: ${page} ======`);
+    // console.log(`====== CharacterBackendService.getAllPagead: ${page} ======`);
 
     return this.http.get<PageDto<CharacterDto>>(`${this.apiServerUrl}?page=${page}`).pipe(
       map(data => {
@@ -54,7 +54,7 @@ export class CharacterBackendService {
       return this.getAllPagead(page, size);
     }
 
-    console.log(`====== CharacterBackendService.searchPagead: ${page} ${filter} ======`);
+    // console.log(`====== CharacterBackendService.searchPagead: ${page} ${filter} ======`);
 
     let query: string = `?page=${page}`;
     if (filter && filter.length > 0) {
