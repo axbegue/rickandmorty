@@ -8,6 +8,7 @@ import { Character } from 'src/app/model/character';
 import { CharacterHelper } from 'src/app/model/character-helper';
 import { ViewChild } from '@angular/core';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
+import { environment } from '@environment/environment';
 
 @Component({
   selector: 'app-character-slider',
@@ -123,7 +124,7 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
   private clearSlides() {
     // if (this.slickModal.initialized) {
     //   this.slickModal.unslick();
-    //   console.log('unslick');
+    //   this.log('unslick');
       
     // }
 
@@ -131,7 +132,7 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
 
     // if (!this.slickModal.initialized) {
     //   this.slickModal.initSlick();
-    //   console.log('initSlick');
+    //   this.log('initSlick');
     // }
   }
   
@@ -148,37 +149,37 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
   
   slickInit(e: any) {
     this.initialized = true;
-    console.log('slick initialized');
-    // console.log(e);
+    this.log('slick initialized');
+    // this.log(e);
   }
   
   breakpoint(e: any) {
-    console.log('breakpoint');
-    // console.log(e);
+    this.log('breakpoint');
+    // this.log(e);
   }
   
   afterChange(e: any) {
-    console.log('afterChange');
-    // console.log(e);
+    this.log('afterChange');
+    // this.log(e);
   }
   
   beforeChange(e: any) {
-    console.log('beforeChange');
+    this.log('beforeChange');
 
     if (this.loading) {
       return;
     }
     
-    console.log('beforeChange inside');
-    // console.log(e);
+    this.log('beforeChange inside');
+    // this.log(e);
     
-    // console.log(e);
-    // console.log('currentSlide: ' + e.currentSlide);
-    // console.log('nextSlide: ' + e.nextSlide);
-    // console.log('slidesToScroll: ' + e.slick.options.slidesToScroll);
-    // console.log('slidesToShow: ' + e.slick.options.slidesToShow);
-    // console.log('totalSlides: ' + this.entityList.length);
-    // console.log('getTotalElements: ' + this.pagination.getTotalElements());
+    // this.log(e);
+    // this.log('currentSlide: ' + e.currentSlide);
+    // this.log('nextSlide: ' + e.nextSlide);
+    // this.log('slidesToScroll: ' + e.slick.options.slidesToScroll);
+    // this.log('slidesToShow: ' + e.slick.options.slidesToShow);
+    // this.log('totalSlides: ' + this.entityList.length);
+    // this.log('getTotalElements: ' + this.pagination.getTotalElements());
     
 
     if (this.slidesSize() >= this.pagination.getTotalElements()) {
@@ -186,8 +187,8 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
     }
 
     if (e.nextSlide + (e.slick.options.slidesToScroll*2) >= this.slidesSize()) {
-      console.log('============== Lazy load ==============');
-      // console.log(this.pagination.getpageNumber());
+      this.log('============== Lazy load ==============');
+      // this.log(this.pagination.getpageNumber());
       
       this.service.pageChange(this.pagination.getpageNumber() + 1);
     }
@@ -196,8 +197,8 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
   
   _trackBy(index: number, slide: Character): number {
     // *ngFor="let slide of slides; trackBy: _trackBy"
-    // console.log(index);
-    // console.log(slide);
+    // this.log(index);
+    // this.log(slide);
     return slide.id;
   }
 
@@ -220,6 +221,12 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
   public getDescription(entity: Character) {
     // {{slide.status + ', ' + slide.species + ', ' + slide.gender + ', ' + slide.origin!.name}}
     return CharacterHelper.getDescription(entity);
+  }
+
+  private log(value: any) {
+    if (!environment.production) {
+      console.log(value);
+    }
   }
 
 }

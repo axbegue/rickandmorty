@@ -2,6 +2,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { OnDestroy } from '@angular/core';
 import { HostBinding } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { environment } from '@environment/environment';
 import { CharacterService } from '@modules/character/service/character.service';
 import { FilterService } from '@modules/character/service/filter.service';
 import { Subscription } from 'rxjs';
@@ -60,6 +61,12 @@ export class CharacterContentComponent implements OnInit, OnDestroy {
 
   onCloseClick() {
     this.currentEntity = null;
+  }
+
+  private log(value: any) {
+    if (!environment.production) {
+      console.log(value);
+    }
   }
 
 }

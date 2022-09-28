@@ -7,6 +7,7 @@ import { Character } from 'src/app/model';
 import { CharacterBackendService } from 'src/app/service/character-backend.service';
 import { Page } from '@shared/app-pagination/page';
 import { MathHelper } from '@shared/util/math-helper';
+import { environment } from '@environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -115,11 +116,11 @@ export class CharacterService {
   }
 
   public pageChange(page: number) {
-    console.log('pageChange: ' + page);
+    this.log('pageChange: ' + page);
     this.pagination.pageNumber = page;
     
     if (this.onLazyload) {
-      console.log('pageChange.onLazyload');
+      this.log('pageChange.onLazyload');
       new Promise(resolve => this.findEntitiesLazyLoad(false));
     } else {
       this.findEntities(this.textoBuscado, false);
@@ -130,5 +131,11 @@ export class CharacterService {
     this.onLazyload = false
     this.textoBuscado = query;
     this.findEntities(this.textoBuscado, true);
+  }
+
+  private log(value: any) {
+    if (!environment.production) {
+      console.log(value);
+    }
   }
 }

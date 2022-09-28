@@ -6,6 +6,7 @@ import { SearchingEntity } from '@shared/util/searching-entity';
 import { EpisodeBackendService, LocationBackendService } from 'src/app/service';
 import { Character, Episode, LocationModel, Season } from 'src/app/model';
 import { CharacterService } from '@modules/character/service';
+import { environment } from '@environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -66,7 +67,7 @@ export class FilterService {
     episode.characters.forEach((charUrl: String)=> {
       charIds += charUrl.substring(charUrl.indexOf('api/character/')+14, charUrl.length) + ',';
     });
-    // console.log(charIds);
+    // this.log(charIds);
 
     this.characterService.getEntitiesById(charIds);
   }
@@ -82,7 +83,7 @@ export class FilterService {
   
   // ======= Location/Origin Filters =======
   public getEntitiesByLocationUrl(locationUrl: string) {
-    // console.log(locationUrl);
+    // this.log(locationUrl);
     
     let locationId = locationUrl.substring(locationUrl.indexOf('api/location/')+13, locationUrl.length);
     
@@ -98,7 +99,7 @@ export class FilterService {
           charIds += charUrl.substring(charUrl.indexOf('api/character/')+14, charUrl.length) + ',';
         });
         
-        // console.log(charIds);
+        // this.log(charIds);
         
         this.characterService.getEntitiesById(charIds)
       },
@@ -106,5 +107,11 @@ export class FilterService {
         alert(error);
       }
     });
+  }
+
+  private log(value: any) {
+    if (!environment.production) {
+      console.log(value);
+    }
   }
 }

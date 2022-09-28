@@ -1,5 +1,6 @@
 import { OnDestroy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { environment } from '@environment/environment';
 import { CharacterService } from '@modules/character/service';
 import { FilterService } from '@modules/character/service/filter.service';
 import { Subscription } from 'rxjs';
@@ -48,7 +49,7 @@ export class CharacterFilterComponent implements OnInit, OnDestroy {
   }
   
   public onSeasonChange(event: Event) {
-    // console.log((event.target as HTMLInputElement).value);
+    // this.log((event.target as HTMLInputElement).value);
     let code = (event.target as HTMLInputElement).value;
     if (code === '') {
       this.episodeList.splice(0, this.episodeList.length);
@@ -85,5 +86,11 @@ export class CharacterFilterComponent implements OnInit, OnDestroy {
     }
     this.searchClicked = false;
     this._enteredSearchValue = val;
+  }
+
+  private log(value: any) {
+    if (!environment.production) {
+      console.log(value);
+    }
   }
 }
