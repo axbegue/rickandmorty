@@ -120,9 +120,10 @@ export class CharacterService {
     this.pagination.pageNumber = page;
     
     if (this.onLazyload) {
-      this.log('pageChange.onLazyload');
+      this.log('pageChange.on LOCAL load');
       new Promise(resolve => this.findEntitiesLazyLoad(false));
     } else {
+      this.log('pageChange.on REMOTE load');
       this.findEntities(this.textoBuscado, false);
     }
   }

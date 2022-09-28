@@ -17,7 +17,7 @@ export class CharacterBackendService {
   constructor(private http: HttpClient) { }
 
   public getById(entityId: string): Observable<Character[]> {
-    // console.log(`====== CharacterBackendService.getById: ${entityId} ======`);
+    this.log(`====== Character BACKEND.getById: ${entityId} ======`);
 
     return this.http.get<CharacterDto[]>(`${this.apiServerUrl}/${entityId}`).pipe(
       map( (entity) => {
@@ -31,7 +31,7 @@ export class CharacterBackendService {
   }
 
   public getAllPagead(page: number, size?: number): Observable<Page<Character>> {
-    // console.log(`====== CharacterBackendService.getAllPagead: ${page} ======`);
+    this.log(`====== Character BACKEND.getAllPagead: ${page} ======`);
 
     return this.http.get<PageDto<CharacterDto>>(`${this.apiServerUrl}?page=${page}`).pipe(
       map(data => {
@@ -53,7 +53,7 @@ export class CharacterBackendService {
       return this.getAllPagead(page, size);
     }
 
-    // console.log(`====== CharacterBackendService.searchPagead: ${page} ${filter} ======`);
+    this.log(`====== Character BACKEND.searchPagead: ${page} ${filter} ======`);
 
     let query: string = `?page=${page}`;
     if (filter && filter.length > 0) {
@@ -85,5 +85,11 @@ export class CharacterBackendService {
     }
 
     return entity;
+  }
+
+  private log(value: any) {
+    if (!environment.production) {
+      console.log(value);
+    }
   }
 }

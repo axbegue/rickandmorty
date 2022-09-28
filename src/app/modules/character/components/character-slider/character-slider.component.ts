@@ -149,28 +149,28 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
   
   slickInit(e: any) {
     this.initialized = true;
-    this.log('slick initialized');
+    // this.log('slick initialized');
     // this.log(e);
   }
   
   breakpoint(e: any) {
-    this.log('breakpoint');
+    // this.log('breakpoint');
     // this.log(e);
   }
   
   afterChange(e: any) {
-    this.log('afterChange');
+    // this.log('afterChange');
     // this.log(e);
   }
   
   beforeChange(e: any) {
-    this.log('beforeChange');
+    // this.log('beforeChange');
 
     if (this.loading) {
       return;
     }
     
-    this.log('beforeChange inside');
+    // this.log('beforeChange inside');
     // this.log(e);
     
     // this.log(e);
@@ -198,7 +198,7 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
   _trackBy(index: number, slide: Character): number {
     // *ngFor="let slide of slides; trackBy: _trackBy"
     // this.log(index);
-    // this.log(slide);
+    // console.log(slide);
     return slide.id;
   }
 
