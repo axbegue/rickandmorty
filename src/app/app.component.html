@@ -1,11 +1,19 @@
 <div class="d-flex flex-column h-100">
-  <mat-toolbar color="primary" class="mat-elevation-z6">
+  <mat-toolbar color="primary" class="app-filterbar mat-elevation-z6">
     <span class="app-title me-2">Rick y Morty Challenge</span>
-    <span class="example-spacer"></span>
-    <app-filter-bar></app-filter-bar>
+    <span class="filterbar-spacer"></span>
+    <app-character-filter></app-character-filter>
   </mat-toolbar>
   
   <div class="app-main-content h-100">
-    <router-outlet></router-outlet>
+    <div class="app-section d-flex flex-column">
+      <div class="wrap-content">
+        <div class="back-image"></div>
+        <div class="app-content">
+          <app-character-content></app-character-content>
+        </div>
+      </div>
+      <app-character-slider></app-character-slider>
+    </div>
   </div>
 </div>

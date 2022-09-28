@@ -1,37 +1,44 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CharacterListComponent } from './components/character-list/character-list.component';
-import { MatListModule } from '@angular/material/list';
-import { CharacterSliderComponent } from './components/character-slider/character-slider.component';
+import { FormsModule } from '@angular/forms';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
-import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { SlickCarouselModule } from 'ngx-slick-carousel';
+
 import { CharacterContentComponent } from './components/character-content/character-content.component';
+import { CharacterFilterComponent } from './components/character-filter/character-filter.component';
+import { CharacterListComponent } from './components/character-list/character-list.component';
+import { CharacterSliderComponent } from './components/character-slider/character-slider.component';
 
 @NgModule({
   declarations: [
+    CharacterContentComponent,
+    CharacterFilterComponent,
     CharacterListComponent,
     CharacterSliderComponent,
-    CharacterContentComponent
   ],
   imports: [
     CommonModule,
-    MatListModule,
+    FormsModule,
 
-    MatRadioModule,
-    MatIconModule,
     MatButtonModule,
-    MatCardModule,
+    MatIconModule,
+    MatListModule, // For first test
+    // MatRadioModule,
+    MatTooltipModule,
+
     SlickCarouselModule,
-    MatTooltipModule
   ],
   exports: [
+    CharacterContentComponent,
+    CharacterFilterComponent,
     CharacterListComponent,
     CharacterSliderComponent,
-    CharacterContentComponent
   ]
 })
 export class CharacterModule { }

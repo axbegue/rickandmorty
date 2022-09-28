@@ -13,7 +13,7 @@ import { EpisodeBackendService } from 'src/app/service/episode-backend.service';
   providedIn: 'root'
 })
 export class FilterBarService {
-  private pagination: Pagination = new Pagination().size(50);
+  private pagination: Pagination = new Pagination().size(20);
   private seasonSubject$: BehaviorSubject<SearchingEntity<Season>> = 
         new BehaviorSubject<SearchingEntity<Season>>(new SearchingEntity<Season>());
   private episodeSubject$: BehaviorSubject<SearchingEntity<Episode>> = 

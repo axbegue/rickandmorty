@@ -59,6 +59,8 @@
 
 
     .empty-content {
+      filter: saturate(0.5);
+      
       .image-container {
         position: relative;
         width: 90%;

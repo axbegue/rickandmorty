@@ -1,16 +1,16 @@
 import { OnDestroy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { CharacterService } from '@modules/character/service';
-import { FilterBarService } from '@modules/filter-bar/service/filter-bar.service';
+import { FilterBarService } from '@modules/character/service/filter-bar.service';
 import { Subscription } from 'rxjs';
 import { Episode, Season } from 'src/app/model';
 
 @Component({
-  selector: 'app-filter-bar',
-  templateUrl: './filter-bar.component.html',
-  styleUrls: ['./filter-bar.component.scss']
+  selector: 'app-character-filter',
+  templateUrl: './character-filter.component.html',
+  styleUrls: ['./character-filter.component.scss']
 })
-export class FilterBarComponent implements OnInit, OnDestroy {
+export class CharacterFilterComponent implements OnInit, OnDestroy {
   public seasonList: Season[] = [];
   public episodeList: Episode[] = [];
   private _enteredSearchValue: string = '';
@@ -89,5 +89,4 @@ export class FilterBarComponent implements OnInit, OnDestroy {
     this._enteredSearchValue = val;
     this.characterService.onSearchPerformed!(val, false);
   }
-
 }
