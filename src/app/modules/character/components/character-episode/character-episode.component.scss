@@ -1,0 +1,12 @@
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+
+mat-selection-list {
+  max-height: 400px;
+  overflow: auto;
+}
+
+.close-button {
+  background-color: $gray-600;
+  // right: 0;
+}

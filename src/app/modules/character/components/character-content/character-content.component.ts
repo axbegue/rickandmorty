@@ -2,11 +2,14 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { OnDestroy } from '@angular/core';
 import { HostBinding } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { environment } from '@environment/environment';
 import { CharacterService } from '@modules/character/service/character.service';
 import { FilterService } from '@modules/character/service/filter.service';
 import { Subscription } from 'rxjs';
+import { Episode } from 'src/app/model';
 import { Character } from 'src/app/model/character';
+import { CharacterEpisodeComponent } from '../character-episode/character-episode.component';
 
 @Component({
   selector: 'app-character-content',
@@ -41,7 +44,8 @@ export class CharacterContentComponent implements OnInit, OnDestroy {
   private subscription!: Subscription;
 
   constructor(private service: CharacterService,
-    private filterService: FilterService) { }
+    private filterService: FilterService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.subscription = this.service.getEntitySelectionSubject$().subscribe({
@@ -61,6 +65,20 @@ export class CharacterContentComponent implements OnInit, OnDestroy {
 
   onCloseClick() {
     this.currentEntity = null;
+  }
+
+  onEpisodiosClick() {
+    this.filterService.getEpisodesFromCharacter(this.currentEntity!).subscribe({
+      next: (response: Episode[]) => {
+        let episodes: Episode[] = [];
+        response.forEach(val => episodes.push( val ));
+        
+        this.dialog.open(CharacterEpisodeComponent, {data: episodes});
+      },
+      error: (error: string) => {
+        alert(error);
+      }
+    });
   }
 
   private log(value: any) {

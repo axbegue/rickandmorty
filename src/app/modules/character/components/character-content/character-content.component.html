@@ -57,6 +57,11 @@
             <a *ngIf="currentEntity!.location!.name !== 'unknown'" (click)="onLocationClick(currentEntity!.location!.url)">{{currentEntity!.location!.name}}</a>
           </span>
         </div>
+        <div class="info-item">
+          <span matTooltip="Episodios donde aparece" class="text">
+            <a (click)="onEpisodiosClick()">Episodios</a>
+          </span>
+        </div>
       </div>
       <!-- <div class="close-button mat-elevation-z3"> -->
         <button class="close-button mat-elevation-z8" mat-mini-fab (click)="onCloseClick()">

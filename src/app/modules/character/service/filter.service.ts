@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Page } from '@shared/app-pagination';
 import { SearchingEntity } from '@shared/util/searching-entity';
@@ -67,9 +67,15 @@ export class FilterService {
     episode.characters.forEach((charUrl: String)=> {
       charIds += charUrl.substring(charUrl.indexOf('api/character/')+14, charUrl.length) + ',';
     });
-    // this.log(charIds);
-
     this.characterService.getEntitiesById(charIds);
+  }
+
+  public getEpisodesFromCharacter(character: Character): Observable<Episode[]> {
+    let episodesId: string = '';
+    character.episode.forEach((episodeUrl: String)=> {
+      episodesId += episodeUrl.substring(episodeUrl.indexOf('api/episode/')+12, episodeUrl.length) + ',';
+    });
+    return this.episodeBackend.getById(episodesId);
   }
 
   private convertToSeason(episode: Episode): Season {

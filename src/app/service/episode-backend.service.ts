@@ -16,6 +16,20 @@ export class EpisodeBackendService {
 
   constructor(private http: HttpClient) { }
 
+  public getById(entityId: string): Observable<Episode[]> {
+    this.log(`====== Episode BACKEND.getById: ${entityId} ======`);
+
+    return this.http.get<EpisodeDto[]>(`${this.apiServerUrl}/${entityId}`).pipe(
+      map( (entity) => {
+        // Convert CharacterDto -> Character if needed
+        
+        // Repair Date
+        entity.forEach(val => this.parseDates(val));
+        return entity
+      } )
+    );
+  }
+
   public getAllPagead(page: number, size?: number): Observable<Page<Episode>> {
     return this.http.get<PageDto<EpisodeDto>>(`${this.apiServerUrl}?page=${page}`).pipe(
       map(data => {
@@ -67,5 +81,11 @@ export class EpisodeBackendService {
     }
 
     return entity;
+  }
+
+  private log(value: any) {
+    if (!environment.production) {
+      console.log(value);
+    }
   }
 }
