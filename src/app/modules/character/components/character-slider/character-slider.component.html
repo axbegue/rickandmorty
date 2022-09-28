@@ -12,7 +12,7 @@
       <div class="asset-wrapper">
         <a (blur)="onBlur()" (click)="onClick(slide)" class="basic-card hoverable-card">
           <div class="image-container">
-            <img src="{{ slide.image }}" alt="">
+            <img [attr.data-lazy]="slide.image" alt=""/>
           </div>
           <div class="asset-metadata">
             <p class="title">{{slide.id + '. ' + slide.name}}</p>

@@ -51,7 +51,8 @@ export class FilterBarComponent implements OnInit, OnDestroy {
     // console.log((event.target as HTMLInputElement).value);
     let code = (event.target as HTMLInputElement).value;
     if (code === '') {
-      this.episodeList.splice(0, this.episodeList.length)
+      this.episodeList.splice(0, this.episodeList.length);
+      this.onSearchPerformed();
       return;
     }
 
@@ -62,6 +63,7 @@ export class FilterBarComponent implements OnInit, OnDestroy {
   public onEpisodeChange(event: Event) {
     let code = (event.target as HTMLInputElement).value;
     if (code === '') {
+      this.onSearchPerformed();
       return;
     }
     let episode = this.episodeList.find(val => val.episode === code);
@@ -79,6 +81,7 @@ export class FilterBarComponent implements OnInit, OnDestroy {
 
   set enteredSearchValue(val: string) {
     if (this.searchClicked && this._enteredSearchValue !== '' && val === '') {
+      this._enteredSearchValue = val;
       this.characterService.onSearchPerformed(val, true);
       return;
     }

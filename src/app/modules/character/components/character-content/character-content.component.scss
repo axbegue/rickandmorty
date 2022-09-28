@@ -58,7 +58,7 @@
     left: 0;
 
 
-    .empty-content{
+    .empty-content {
       .image-container {
         position: relative;
         width: 90%;
@@ -69,9 +69,17 @@
         }
       }
     }
-
+    
+    
     .entity-content {
+      position: relative;
       // min-width: 700px;
+      
+      .close-button {
+        position: absolute;
+        right: 0;
+        top: 50px;
+      }
 
       .image-container {
         flex: 0 1 50%;
@@ -101,11 +109,17 @@
         line-height: 22px;
         margin-right: 5px;
       }
+
       .title-info .text {
         color: #fff;
         font-size: 16px;
         font-weight: 400;
         line-height: 22px;
+      }
+
+      .text a {
+        cursor: pointer;
+        color: #fff;
       }
     }
 

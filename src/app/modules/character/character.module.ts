@@ -5,9 +5,10 @@ import { MatListModule } from '@angular/material/list';
 import { CharacterSliderComponent } from './components/character-slider/character-slider.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
-import {MatCardModule} from '@angular/material/card';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
 import { CharacterContentComponent } from './components/character-content/character-content.component';
 
 @NgModule({
@@ -24,7 +25,8 @@ import { CharacterContentComponent } from './components/character-content/charac
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    SlickCarouselModule
+    SlickCarouselModule,
+    MatTooltipModule
   ],
   exports: [
     CharacterListComponent,

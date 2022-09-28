@@ -45,13 +45,24 @@
         </div>
         <div class="info-item">
           <span class="label">Origin: </span>
-          <span class="text">{{currentEntity!.origin!.name}}</span>
+          <span matTooltip="Personajes por origen" class="text">
+            {{currentEntity!.origin!.name === 'unknown' ? currentEntity!.origin!.name : ''}}
+            <a *ngIf="currentEntity!.origin!.name !== 'unknown'" (click)="onLocationClick(currentEntity!.origin!.url)">{{currentEntity!.origin!.name}}</a>
+          </span>
         </div>
         <div class="info-item">
           <span class="label">Location: </span>
-          <span class="text">{{currentEntity!.location!.name}}</span>
+          <span matTooltip="Personajes por localidad" class="text">
+            {{currentEntity!.location!.name === 'unknown' ? currentEntity!.location!.name : ''}}
+            <a *ngIf="currentEntity!.location!.name !== 'unknown'" (click)="onLocationClick(currentEntity!.location!.url)">{{currentEntity!.location!.name}}</a>
+          </span>
         </div>
       </div>
+      <!-- <div class="close-button mat-elevation-z3"> -->
+        <button class="close-button mat-elevation-z8" mat-mini-fab (click)="onCloseClick()">
+          <mat-icon>close</mat-icon>
+        </button>
+      <!-- </div> -->
     </div>
   </div>
 </ng-template>

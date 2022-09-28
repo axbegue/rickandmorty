@@ -11,29 +11,29 @@ import { CharacterDto } from 'src/app/dto/character-dto';
 })
 export class CharacterListComponent implements OnInit, OnDestroy {
   public entityList: CharacterDto[] = [];
-  private subscription!: Subscription;
+  // private subscription!: Subscription;
 
   constructor(private service: CharacterService) { }
 
   ngOnInit(): void {
-    this.service.findEntities('', true);
-    this.subscription = this.service.getSearchingSubject$().subscribe({
-      next: (result) => {
-        if (result.searching) {
-          // this.spinner.show();
-        } else {
-          // this.spinner.hide();
-          this.entityList.splice(0, this.entityList.length)
-          result.entityList.forEach(val => this.entityList.push(Object.assign({}, val)));
-          console.log(this.entityList);
+    // this.service.findEntities('', true);
+    // this.subscription = this.service.getSearchingSubject$().subscribe({
+    //   next: (result) => {
+    //     if (result.searching) {
+    //       // this.spinner.show();
+    //     } else {
+    //       // this.spinner.hide();
+    //       this.entityList.splice(0, this.entityList.length)
+    //       result.entityList.forEach(val => this.entityList.push(Object.assign({}, val)));
+    //       console.log(this.entityList);
           
-        }
-      }
-    });
+    //     }
+    //   }
+    // });
   }
   
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 
 }

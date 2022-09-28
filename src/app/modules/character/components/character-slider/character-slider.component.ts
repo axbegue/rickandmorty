@@ -6,6 +6,8 @@ import { Pagination } from '@shared/app-pagination';
 import { CharacterService } from '@modules/character/service';
 import { Character } from 'src/app/model/character';
 import { CharacterHelper } from 'src/app/model/character-helper';
+import { ViewChild } from '@angular/core';
+import { SlickCarouselComponent } from 'ngx-slick-carousel';
 
 @Component({
   selector: 'app-character-slider',
@@ -13,11 +15,14 @@ import { CharacterHelper } from 'src/app/model/character-helper';
   styleUrls: ['./character-slider.component.scss']
 })
 export class CharacterSliderComponent implements OnInit, OnDestroy {
+  @ViewChild('slickModal', { static: true }) slickModal!: SlickCarouselComponent;
   private pagination: Pagination = new Pagination().size(50);
   public slides: {img: string}[] = [];
   public entityList: Character[] = [];
   private subscription!: Subscription;
   private paginationSubs!: Subscription;
+  private loading: boolean = false;
+  private initialized: boolean = false;
 
   constructor(private service: CharacterService) { }
 
@@ -36,12 +41,34 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
       next: (result) => {
         if (result.searching) {
           // this.spinner.show();
+          this.loading = true;
         } else {
           // this.spinner.hide();
+          this.loading = true;
+
           if (result.isClear) {
-            this.entityList.splice(0, this.entityList.length)
+
+
+            
+            // if (this.slickModal.initialized) {
+            //   this.slickModal.unslick();
+            //   console.log('unslick');
+              
+            // }
+
+            this.entityList.splice(0, this.entityList.length);
+            
+            // if (!this.slickModal.initialized) {
+            //   this.slickModal.initSlick();
+            //   console.log('initSlick');
+            // }
           }
           result.entityList.forEach( val => this.entityList.push(Object.assign({}, val)) );
+          if (result.isClear && this.initialized) {
+            this.slickModal.slickGoTo(1);
+          }
+          
+          this.loading = false;
         }
       }
     });
@@ -54,6 +81,7 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
 
   
   slideConfig = {
+    lazyLoad: 'ondemand',
     slidesToShow: 6,
     slidesToScroll: 6,
     infinite: false,
@@ -112,21 +140,27 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
   }
   
   slickInit(e: any) {
+    this.initialized = true;
     // console.log('slick initialized');
     // console.log(e);
   }
   
   breakpoint(e: any) {
-    // console.log('breakpoint');
+    console.log('breakpoint');
     // console.log(e);
   }
   
   afterChange(e: any) {
-    // console.log('afterChange');
+    console.log('afterChange');
     // console.log(e);
   }
   
   beforeChange(e: any) {
+    if (this.loading) {
+      return;
+    }
+    // console.log(e);
+    
     // console.log('beforeChange');
     // console.log(e);
     // console.log('currentSlide: ' + e.currentSlide);
@@ -142,12 +176,23 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
     }
 
     if (e.nextSlide + (e.slick.options.slidesToScroll*2) >= this.entityList.length) {
-      // console.log('Lazy load');
+      console.log('Lazy load');
       // console.log(this.pagination.getpageNumber());
       
       this.service.pageChange(this.pagination.getpageNumber() + 1);
     }
       
+  }
+  
+  _trackBy(index: number, slide: Character) {
+    console.log(index);
+    console.log(slide);
+    
+    
+    if (slide) {
+      return slide.id;
+    }
+    else return 0;
   }
 
   // selected: boolean = false;
@@ -163,7 +208,7 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
   }
 
   public onBlur() {
-    this.service.entitySelection(null);
+    // this.service.entitySelection(null);
   }
 
   public getDescription(entity: Character) {

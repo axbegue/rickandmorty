@@ -44,12 +44,22 @@ export class CharacterContentComponent implements OnInit, OnDestroy {
     this.subscription = this.service.getEntitySelectionSubject$().subscribe({
       next: (result) => {
         this.currentEntity = result;
+        // console.log(result);
+        
       }
     });
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  onLocationClick(location: string) {
+    this.service.getEntitiesByLocationUrl(location);
+  }
+
+  onCloseClick() {
+    this.currentEntity = null;
   }
 
 }
