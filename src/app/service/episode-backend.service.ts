@@ -3,11 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { PageDto } from '../dto/page-dto';
-import { EpisodeDto } from '../dto/episode-dto';
 import { DateHelper } from '@shared/util/date-helper';
 import { Page } from '@shared/app-pagination/page';
-import { Episode } from '../model/episode';
+import { EpisodeDto, PageDto } from '../dto';
+import { Episode } from '../model';
 
 @Injectable({
   providedIn: 'root'

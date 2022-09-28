@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
 import { environment } from '@environment/environment';
-import { LocationModel } from '../model';
-import { LocationDto } from '../dto/location-dto';
 import { DateHelper } from '@shared/util/date-helper';
+import { LocationDto } from '../dto';
+import { LocationModel } from '../model';
 
 @Injectable({
   providedIn: 'root'
