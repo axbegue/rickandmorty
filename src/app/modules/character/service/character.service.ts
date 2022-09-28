@@ -53,6 +53,25 @@ export class CharacterService {
     });
   }
 
+  public getEntitiesById(entityId: string) {
+    
+    this.searchingSubject$.next(new SearchingEntity<Character>().init());
+    
+    this.backend.getById(entityId).subscribe({
+      next: (response: Character[]) => {
+        this.pagination.pageNumber = 1;
+        this.pagination.totalPages = 1;
+        this.pagination.totalElements = 1;
+        this.paginationSubject$.next(this.pagination.clone());
+        this.searchingSubject$.next(new SearchingEntity<Character>().clear(true).end(response));
+      },
+      error: (error: string) => {
+        this.searchingSubject$.next(new SearchingEntity<Character>().end([]));
+        alert(error);
+      }
+    });
+  }
+
   public pageChange(page: number) {
     this.pagination.pageNumber = page;
     this.findEntities(this.textoBuscado, false);

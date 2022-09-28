@@ -40,7 +40,7 @@ export class EpisodeBackendService {
 
     let query: string = `?page=${page}`;
     if (filter && filter.length > 0) {
-      query = `${query}&name=${filter}`;
+      query = `${query}&episode=${filter}`;
     }
     
     return this.http.get<PageDto<EpisodeDto>>(`${this.apiServerUrl}${query}`).pipe(

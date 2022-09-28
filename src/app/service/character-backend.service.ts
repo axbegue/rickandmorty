@@ -17,6 +17,15 @@ export class CharacterBackendService {
 
   constructor(private http: HttpClient) { }
 
+  public getById(entityId: string): Observable<Character[]> {
+    return this.http.get<Character[]>(`${this.apiServerUrl}/${entityId}`).pipe(
+      map( (entity) => {
+        entity.forEach(val => this.parseDates(val));
+        return entity
+      } )
+    );
+  }
+
   public getAllPagead(page: number, size?: number): Observable<Page<Character>> {
     return this.http.get<PageDto<CharacterDto>>(`${this.apiServerUrl}?page=${page}`).pipe(
       map(data => {
