@@ -1,9 +1,11 @@
 <form class="d-flex" role="search" (ngSubmit)="onSearchPerformed()">
-  <select matTooltip="Selecciona una temporada" class="season-filter form-select me-2" aria-label="Default select example" (change)="onSeasonChange($event)">
+  <select matTooltip="Selecciona una temporada" class="season-filter form-select me-2" name="temporada" [(ngModel)]="selectionTemporada"
+          aria-label="Default select example" (change)="onSeasonChange($event)">
     <option selected value="">Season</option>
     <option *ngFor="let season of seasonList" [value]="season.code">{{season.name}}</option>
   </select>
-  <select matTooltip="Personajes por episodio" class="episode-filter form-select me-2" aria-label="Default select example" (change)="onEpisodeChange($event)">
+  <select matTooltip="Personajes por episodio" class="episode-filter form-select me-2" name="episodio" [(ngModel)]="selectionEpisodio"
+          aria-label="Default select example" (change)="onEpisodeChange($event)">
     <option selected value="">Episode</option>
     <option *ngFor="let episode of episodeList" [value]="episode.episode">{{episode.episode}}</option>
   </select>

@@ -16,6 +16,7 @@ export class FilterService {
         new BehaviorSubject<SearchingEntity<Season>>(new SearchingEntity<Season>());
   private episodeSubject$: BehaviorSubject<SearchingEntity<Episode>> = 
         new BehaviorSubject<SearchingEntity<Episode>>(new SearchingEntity<Episode>());
+  private filterSetSubject$: BehaviorSubject<string> = new BehaviorSubject<string>('');
 
   constructor(private episodeBackend: EpisodeBackendService,
     private locationBackend: LocationBackendService,
@@ -27,6 +28,10 @@ export class FilterService {
 
   public getEpisodeSubject$() {
     return this.episodeSubject$;
+  }
+
+  public getFilterSetSubject$() {
+    return this.filterSetSubject$;
   }
 
   // ======= Seasons/Episode Filters =======
@@ -67,7 +72,30 @@ export class FilterService {
     episode.characters.forEach((charUrl: String)=> {
       charIds += charUrl.substring(charUrl.indexOf('api/character/')+14, charUrl.length) + ',';
     });
+    this.filterSetSubject$.next(episode.episode);
     this.characterService.getEntitiesById(charIds);
+  }
+
+  public findCharactersFromEpisodeStr(episode: string) {
+    if (!episode.match(/S\d\dE\d\d/)) {
+      alert('Bad episode code');
+      return;
+    }
+
+    this.episodeBackend.getByEpisode(episode).subscribe({
+      next: (response: Page<Episode>) => {
+        let episodes: Episode[] = [];
+        response.content.forEach(val => episodes.push( val ));
+        if (!episodes || episodes.length === 0 || episodes.length > 1) {
+          alert('Episode not found!');
+          return;
+        }
+        this.findCharactersFromEpisode(episodes[0]);
+      },
+      error: (error: string) => {
+        alert('Episode not found!');
+      }
+    });
   }
 
   public getEpisodesFromCharacter(character: Character): Observable<Episode[]> {
@@ -88,11 +116,23 @@ export class FilterService {
   }
   
   // ======= Location/Origin Filters =======
+  // Location code: location(#)
+  public getEntitiesByLocationCode(locationCode: string) {
+    if (!locationCode.match(/location\(\d*\)/)) {
+      alert('Bad location code');
+      return;
+    }
+    let partial = locationCode.replace('location(', '');
+    let locationId = partial.replace(')', '');
+    this.getEntitiesByLocationId(locationId);
+  }
+
   public getEntitiesByLocationUrl(locationUrl: string) {
-    // this.log(locationUrl);
-    
     let locationId = locationUrl.substring(locationUrl.indexOf('api/location/')+13, locationUrl.length);
-    
+    this.getEntitiesByLocationId(locationId);
+  }
+
+  public getEntitiesByLocationId(locationId: string) {
     this.locationBackend.getById(locationId).subscribe({
       next: (response: LocationModel) => {
         if (!response.residents || response.residents.length === 0) {
@@ -106,7 +146,7 @@ export class FilterService {
         });
         
         // this.log(charIds);
-        
+        this.filterSetSubject$.next(`location(${response.id})`);
         this.characterService.getEntitiesById(charIds)
       },
       error: (error: string) => {

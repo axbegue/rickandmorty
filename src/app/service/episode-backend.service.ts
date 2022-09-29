@@ -30,6 +30,24 @@ export class EpisodeBackendService {
     );
   }
 
+  public getByEpisode(episode: string): Observable<Page<Episode>> {
+    this.log(`====== Episode BACKEND.getByEpisode: ${episode} ======`);
+
+    return this.http.get<PageDto<EpisodeDto>>(`${this.apiServerUrl}?episode=${episode}`).pipe(
+      map( (data) => {
+        // Conver PageDto -> Page
+        let page = new Page<Episode>(data.info.pages, data.info.count);
+        
+        // Convert CharacterDto -> Character if needed
+        page.content = data.results;
+
+        // Repair Date
+        page.content.forEach(entity => this.parseDates(entity));
+        return page;
+      } )
+    );
+  }
+
   public getAllPagead(page: number, size?: number): Observable<Page<Episode>> {
     return this.http.get<PageDto<EpisodeDto>>(`${this.apiServerUrl}?page=${page}`).pipe(
       map(data => {

@@ -1,10 +1,10 @@
 <div class="modal-header mb-3">
-  <h4 class="modal-title m-0" id="modal-basic-title">Episodios</h4>
+  <h4 class="modal-title m-0" id="modal-basic-title">Episodes</h4>
   <button class="close-button p-0" mat-mini-fab (click)="onClose()">
     <mat-icon>close</mat-icon>
   </button>
 </div>
-<mat-selection-list #ep [multiple]="false">
+<mat-selection-list #epipose_list [multiple]="false" (selectionChange)="onSelectionChange($event)">
   <mat-list-option *ngFor="let episode of episodes" [value]="episode">
     {{episode.episode + ' ' + episode.name}}
   </mat-list-option>
