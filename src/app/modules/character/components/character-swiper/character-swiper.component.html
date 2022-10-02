@@ -1,0 +1,51 @@
+<div class="slider-container">
+  <h1>Meet our Characters</h1>
+  
+  <swiper #swiperRef
+    [slidesPerView]="1"
+    [shortSwipes]="false"
+    [threshold]="2"
+    [breakpoints]="{
+      '1430': {
+        slidesPerView: 6
+      },
+      '1200': {
+        slidesPerView: 5
+      },
+      '740': {
+        slidesPerView: 4
+      },
+      '500': {
+        slidesPerView: 3
+      },
+      '320': {
+        slidesPerView: 2
+      }
+    }"
+    [navigation]="true"
+    [mousewheel]="true"
+    [virtual]="true"
+    (activeIndexChange)="activeIndexChange($event)"
+    class="mySwiper"
+  >
+  
+    <ng-template swiperSlide *ngFor="let slide of entityList" class="slide">
+      <div class="asset-wrapper">
+        <a (click)="onClick(slide)" class="basic-card hoverable-card">
+          <div class="image-container">
+            <img src="{{slide.image}}" alt=""/>
+          </div>
+          <div class="asset-metadata">
+            <p class="title">{{slide.id + '. ' + slide.name}}</p>
+            <div class="metadata">
+              {{slide.description}}
+            </div>
+          </div>
+        </a>
+      </div>
+    </ng-template>
+
+  </swiper>
+
+</div>
+  

@@ -9,12 +9,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { SwiperModule } from 'swiper/angular';
 
 import { CharacterContentComponent } from './components/character-content/character-content.component';
 import { CharacterFilterComponent } from './components/character-filter/character-filter.component';
 import { CharacterListComponent } from './components/character-list/character-list.component';
 import { CharacterSliderComponent } from './components/character-slider/character-slider.component';
 import { CharacterEpisodeComponent } from './components/character-episode/character-episode.component';
+import { CharacterSwiperComponent } from './components/character-swiper/character-swiper.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { CharacterEpisodeComponent } from './components/character-episode/charac
     CharacterListComponent,
     CharacterSliderComponent,
     CharacterEpisodeComponent,
+    CharacterSwiperComponent,
   ],
   imports: [
     CommonModule,
@@ -36,12 +39,13 @@ import { CharacterEpisodeComponent } from './components/character-episode/charac
     MatTooltipModule,
 
     SlickCarouselModule,
+    SwiperModule
   ],
   exports: [
     CharacterContentComponent,
     CharacterFilterComponent,
     CharacterListComponent,
-    CharacterSliderComponent,
+    CharacterSwiperComponent,
   ]
 })
 export class CharacterModule { }
