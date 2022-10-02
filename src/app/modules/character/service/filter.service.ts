@@ -117,6 +117,7 @@ export class FilterService {
   
   // ======= Location/Origin Filters =======
   // Location code: location(#)
+  // TODO: Agregar busqueda location(location name)
   public getEntitiesByLocationCode(locationCode: string) {
     if (!locationCode.match(/location\(\d*\)/)) {
       alert('Bad location code');

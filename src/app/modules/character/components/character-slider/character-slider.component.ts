@@ -23,6 +23,7 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
   private paginationSubs!: Subscription;
   private loading: boolean = false;
   private initialized: boolean = false;
+  private firstTime: boolean = true;
 
   constructor(private service: CharacterService) { }
 
@@ -46,10 +47,14 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
           // this.spinner.hide();
           this.loading = true;
 
-          if (result.isClear) {
+          if (result.isClear && !this.firstTime) {
             this.clearSlides();
+            this.addSlides(result.entityList);
+          } else {
+            this.addSlides(result.entityList);
+            this.firstTime = false;
           }
-          result.entityList.forEach( val => this.addSlide(val) );
+
           if (result.isClear && this.initialized) {
             this.slickModal.slickGoTo(1);
           }
@@ -119,6 +124,10 @@ export class CharacterSliderComponent implements OnInit, OnDestroy {
   private addSlide(slide: Character) {
     // Object.assign({}, val)
     this.entityList.push({ ...slide, description: this.getDescription(slide) });
+  }
+  
+  private addSlides(slides: Character[]) {
+    slides.forEach( slide => this.addSlide(slide) );
   }
 
   private clearSlides() {
