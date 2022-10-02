@@ -7,6 +7,7 @@ import SwiperCore, { Mousewheel, Navigation, Pagination, Virtual } from 'swiper'
 import { Pagination as MyPagination } from '@shared/app-pagination';
 import { environment } from '@environment/environment';
 import { CharacterService } from '@modules/character/service';
+import { AppCommonService } from 'src/app/service';
 import { Character, CharacterHelper } from 'src/app/model';
 
 SwiperCore.use([Pagination, Navigation, Virtual, Mousewheel]);
@@ -26,7 +27,8 @@ export class CharacterSwiperComponent implements OnInit, OnDestroy {
   private initialized: boolean = false;
   private firstTime: boolean = true;
 
-  constructor(private service: CharacterService) { }
+  constructor(private service: CharacterService,
+    private commonService: AppCommonService) { }
 
   ngOnInit(): void {
     this.service.initialize();
@@ -42,9 +44,13 @@ export class CharacterSwiperComponent implements OnInit, OnDestroy {
     this.subscription = this.service.getSearchingSubject$().subscribe({
       next: (result) => {
         if (result.searching) {
+          this.commonService.getProgressBarSpinSubject$().next(true);
+          this.log('spin on');
           // this.spinner.show();
           this.loading = true;
         } else {
+          this.commonService.getProgressBarSpinSubject$().next(false);
+          this.log('spin off');
           // this.spinner.hide();
           this.loading = true;
 

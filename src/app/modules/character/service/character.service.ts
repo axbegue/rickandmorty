@@ -8,6 +8,7 @@ import { CharacterBackendService } from 'src/app/service/character-backend.servi
 import { Page } from '@shared/app-pagination/page';
 import { MathHelper } from '@shared/util/math-helper';
 import { environment } from '@environment/environment';
+import { AppCommonService } from 'src/app/service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,8 @@ export class CharacterService {
   private charactersLazyload: Character[] = [];
   private onLazyload: boolean = false;
 
-  constructor(private backend: CharacterBackendService) { }
+  constructor(private backend: CharacterBackendService,
+    private commonService: AppCommonService) { }
 
   public initialize() {
     this.onLazyload = false;
@@ -98,8 +100,12 @@ export class CharacterService {
   // Como el servidor manda todo sin paginar en getById, las imagenes se cargarian todas a la vez por lo que pagino el contenido manualmente
   // Luego el slider tratara de paginar, donde debo dar de mi lista mientras this.onLazyload sea true
   public getEntitiesById(entityId: string) {
+    this.commonService.getProgressBarSpinSubject$().next(true);
+
     this.backend.getById(entityId).subscribe({
       next: (response: Character[]) => {
+        this.commonService.getProgressBarSpinSubject$().next(false);
+
         this.charactersLazyload = response;
         this.onLazyload = true;
 
@@ -110,6 +116,7 @@ export class CharacterService {
         this.findEntitiesLazyLoad(true);
       },
       error: (error: string) => {
+        this.commonService.getProgressBarSpinSubject$().next(false);
         alert(error);
       }
     });

@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { ErrorInterceptor } from '@core/interceptors/error-interceptor';
 import { setGlobalInjector } from '@core/util/global-injector';
 import { CharacterModule } from '@modules/character';
+import { AppProgressBarModule } from '@shared/app-progress-bar/app-progress-bar.module';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { CharacterModule } from '@modules/character';
     HttpClientModule,
     MatToolbarModule,
     
+    AppProgressBarModule,
     CharacterModule
   ],
   providers: [

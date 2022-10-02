@@ -1,9 +1,9 @@
 .app-filterbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+  // right: 0;
+  // z-index: 2;
   
   .filterbar-spacer {
     flex: 1 1 auto;
@@ -16,9 +16,17 @@
   }
 }
 
+.progress-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60px;
+  z-index: 10;
+}
+
 .app-main-content {
-  margin-top: 64px;
-  overflow-y: auto;
+  // margin-top: 64px;
+  // overflow-y: auto;
 
   .app-section {
     height: 100%;

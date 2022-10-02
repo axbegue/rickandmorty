@@ -134,6 +134,8 @@ export class FilterService {
   }
 
   public getEntitiesByLocationId(locationId: string) {
+    this.characterService.getSearchingSubject$().next(new SearchingEntity<Character>().init());
+
     this.locationBackend.getById(locationId).subscribe({
       next: (response: LocationModel) => {
         if (!response.residents || response.residents.length === 0) {

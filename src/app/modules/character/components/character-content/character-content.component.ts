@@ -9,6 +9,7 @@ import { FilterService } from '@modules/character/service/filter.service';
 import { Subscription } from 'rxjs';
 import { Episode } from 'src/app/model';
 import { Character } from 'src/app/model/character';
+import { AppCommonService } from 'src/app/service';
 import { CharacterEpisodeComponent } from '../character-episode/character-episode.component';
 
 @Component({
@@ -45,7 +46,8 @@ export class CharacterContentComponent implements OnInit, OnDestroy {
 
   constructor(private service: CharacterService,
     private filterService: FilterService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private commonService: AppCommonService) { }
 
   ngOnInit(): void {
     this.subscription = this.service.getEntitySelectionSubject$().subscribe({
@@ -68,14 +70,19 @@ export class CharacterContentComponent implements OnInit, OnDestroy {
   }
 
   onEpisodiosClick() {
+    this.commonService.getProgressBarSpinSubject$().next(true);
+
     this.filterService.getEpisodesFromCharacter(this.currentEntity!).subscribe({
       next: (response: Episode[]) => {
+        this.commonService.getProgressBarSpinSubject$().next(false);
+
         let episodes: Episode[] = [];
         response.forEach(val => episodes.push( val ));
         
         this.dialog.open(CharacterEpisodeComponent, {data: episodes});
       },
       error: (error: string) => {
+        this.commonService.getProgressBarSpinSubject$().next(false);
         alert(error);
       }
     });
