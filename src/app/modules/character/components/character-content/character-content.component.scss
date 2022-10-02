@@ -45,6 +45,12 @@
     // min-width: 500px;
     z-index: 2;
   }
+  
+  @media (max-height: 650px) {
+    .animated-transition {
+      display: none;
+    }
+  }
 
   .animated-transition {
     margin: 0;
