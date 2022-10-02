@@ -23,7 +23,11 @@
       }
     }"
     [navigation]="true"
-    [mousewheel]="true"
+    [mousewheel]="{
+      sensitivity: 5,
+      thresholdDelta: 0,
+      thresholdTime: 0
+    }"
     [virtual]="true"
     (activeIndexChange)="activeIndexChange($event)"
     class="mySwiper"
