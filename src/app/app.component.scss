@@ -30,6 +30,12 @@
     padding-top: 0;
     overflow: hidden;
   
+    @media (max-height: 650px) {
+      .app-content {
+        display: none;
+      }
+    }
+
     .wrap-content {
       flex: 1 0 auto;
       // margin-bottom: auto;
