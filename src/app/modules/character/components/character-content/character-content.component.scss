@@ -47,8 +47,20 @@
   }
   
   @media (max-height: 650px) or (max-width: 220px) {
-    .animated-transition {
-      display: none;
+    .empty-content {
+      display: none !important;
+    }
+  }
+  
+  @media (max-height: 539px) or (max-width: 220px) {
+    .entity-content {
+      display: none !important;
+    }
+  }
+  
+  @media (max-height: 539px) or (max-width: 320px) {
+    .extra-data {
+      display: none !important;
     }
   }
 
