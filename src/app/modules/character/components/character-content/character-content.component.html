@@ -7,14 +7,14 @@
       <div class="data-container">
         <div class="title-info">
           <h1>Rick y Morty</h1>
-          <p>Rick es un brillante científico un tanto borracho que secuestra a su irritable nieto adolescente Morty
-            para vivir aventuras en otros mundos y en dimensiones alternativas.</p>
+          <p>Rick is a brilliant, drunken scientist who kidnaps his cantankerous teenage grandson Morty for 
+            adventures in other worlds and alternate dimensions.</p>
           <div class="info-item">
-            <span class="label">Protagonistas:</span>
+            <span class="label">Protagonists:</span>
             <span class="text">Justin R Parnell,Spencer Grammer</span>
           </div>
           <div>
-            <span class="label">Creado por:</span>
+            <span class="label">Created by:</span>
             <span class="text">Dan Harmon,Justin Roiland</span>
           </div>
         </div>
@@ -45,20 +45,20 @@
         </div>
         <div class="info-item extra-data">
           <span class="label">Origin: </span>
-          <span matTooltip="Personajes por origen" class="text">
+          <span matTooltip="Characters by origin" class="text">
             {{currentEntity!.origin!.name === 'unknown' ? currentEntity!.origin!.name : ''}}
             <a *ngIf="currentEntity!.origin!.name !== 'unknown'" (click)="onLocationClick(currentEntity!.origin!.url)">{{currentEntity!.origin!.name}}</a>
           </span>
         </div>
         <div class="info-item extra-data">
           <span class="label">Location: </span>
-          <span matTooltip="Personajes por localidad" class="text">
+          <span matTooltip="Characters by location" class="text">
             {{currentEntity!.location!.name === 'unknown' ? currentEntity!.location!.name : ''}}
             <a *ngIf="currentEntity!.location!.name !== 'unknown'" (click)="onLocationClick(currentEntity!.location!.url)">{{currentEntity!.location!.name}}</a>
           </span>
         </div>
         <div class="info-item extra-data">
-          <span matTooltip="Episodios donde aparece" class="text">
+          <span matTooltip="Episodes where it appears" class="text">
             <a (click)="onEpisodiosClick()">Episodios</a>
           </span>
         </div>
